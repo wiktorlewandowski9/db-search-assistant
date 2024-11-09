@@ -1,0 +1,86 @@
+# --- General ---
+*.log
+*.env
+.env.*
+*.DS_Store
+*.swp
+Thumbs.db
+
+# --- Docker ---
+docker-compose.override.yml
+docker-compose.local.yml
+**/Dockerfile.local
+**/.dockerignore
+
+# --- Java ---
+target/
+build/
+out/
+.gradle/
+.idea/
+*.iml
+*.ipr
+*.iws
+*.class
+*.jar
+*.war
+*.ear
+.mvn/
+**/mvnw
+**/mvnw.cmd
+
+# --- IDEs and Editors ---
+*.idea/
+*.vscode/
+*.project
+.classpath
+
+# --- Maven User Config ---
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/resources/**
+
+# --- Python ---
+venv/
+__pycache__/
+*.pyc
+
+# --- PostgreSQL ---
+*.sql
+*.pgsql
+*.backup
+
+# --- Local Configs and Secrets ---
+secrets.json
+config.json
+local_settings.py
+credentials.json
+.secret
+
+# --- React ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.js
+.pnp.data.json
+node_modules/
+package-lock.json
+yarn.lock
+dist/
+
+# --- Cache and Output ---
+**/.pytest_cache/
+**/.cache/
+**/dist/
+**/coverage/
+**/.coverage
+
+# --- Test Outputs ---
+**/test-output/
+**/test-results/
+**/junit-reports/
+**/test-reports/
+coverage.xml
+jacoco.xml
+report.xml
+reports/
+coverage/
