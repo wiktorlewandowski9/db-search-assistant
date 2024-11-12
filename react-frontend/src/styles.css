@@ -4,25 +4,28 @@
 }
 body{
   margin:0;
-  height: 100vh;
   background-color: #2d2d2d;
 }
 header{
   background-color: #1a1a1a;
   width: 100%;
   color: #fff;
-  padding: 20px;
+  padding: 22px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 5px 100px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  position: relative;
 }
 
 header .header-left-side{
   display: flex;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
+  color: #fff;
   gap: 20px;
 }
 
@@ -32,30 +35,49 @@ header .header-left-side p{
 }
 
 header .header-left-side img{
+  margin-top: 5px;
   height: 70px;
 }
 
 header .header-menu{
   display: flex;
-  gap:20px;
+  gap:25px;
 }
 
-header a{
+header .header-menu a{
   text-decoration: none;
   color: aliceblue;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  position:relative;
+}
+
+header .header-menu a:after {
+  transition: 0.3s;
+  content: "";
+  background-color: #f2f2f2;
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  border-radius: 2px;
+  opacity: 0;
+  bottom: -6px;
+  left: 0;
+}
+
+header .header-menu a:hover:after{
+  opacity: 1;
 }
 
 .info-container{
   width: 100%;
-  max-height: 500px;
+  max-height: 600px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   color: white;
   gap: 70px;
-  padding: 50px;
+  padding: 60px;
   transition: 0.5s;
   overflow: hidden;
 }
@@ -69,6 +91,11 @@ header a{
   padding: 25px;
   text-align: center;
   font-size: 1.5rem;
+  transition: 0.3s;
+}
+
+.info-container div:hover{
+  transform: scale(1.1);
 }
 
 .info-container div svg{
@@ -84,13 +111,11 @@ header a{
 
 .chatbot-container{
   width: 100%;
-  height: 300px;
   padding: 50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 100vh;
   gap:50px
 }
 
