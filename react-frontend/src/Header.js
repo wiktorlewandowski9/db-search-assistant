@@ -5,10 +5,10 @@ import logo from "./images/logo.svg"
 const Header = () => {
   return (
     <header className="header">
-      <div className='header-left-side'>
+      <a href='http://localhost:3000' className='header-left-side'>
         <img src={logo} alt="Logo"/>
         <p>DB Search Assistant</p>
-      </div>
+      </a>
       <div className='header-menu'>
         <a href='http://localhost:3000'>Start</a>
         <a href='https://github.com/wiktorlewandowski9/db-search-assistant'>Github</a>
