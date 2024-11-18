@@ -18,10 +18,8 @@ public class SqlQueryController {
     @GetMapping("/query")
     public SqlQueryResponse getSqlQuery(@RequestParam String userQuery) {
         String sqlQuery = sqlQueryService.getSqlQuery(userQuery);
-
         SqlQueryResponse response = new SqlQueryResponse();
         response.setSql_query(sqlQuery);
-
         return response;
     }
 }
