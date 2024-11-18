@@ -1,9 +1,12 @@
+import os
 import requests
 import json
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from context import load_context
+
+LLM_NAME = os.environ.get("LLM_NAME")
 
 context = load_context("context.txt")
 
@@ -25,7 +28,7 @@ async def generate_sql(query: Query):
         response = requests.post(
             "http://localhost:11434/api/generate",
             json={
-                "model": query.model,
+                "model": LLM_NAME,
                 "prompt": combined_prompt
             },
             stream=True

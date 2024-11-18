@@ -55,6 +55,7 @@ config.json
 local_settings.py
 credentials.json
 .secret
+context.txt
 
 # --- React ---
 npm-debug.log*

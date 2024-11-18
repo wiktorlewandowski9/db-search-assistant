@@ -25,7 +25,6 @@ public class SqlQueryService {
 
     public String getSqlQuery(String userQuery) {
         // set default LLM model to use
-        String model = "Llama3.1";
         if (userQuery == null || userQuery.isEmpty()) {
             throw new IllegalArgumentException("User query cannot be empty");
         }
@@ -33,7 +32,6 @@ public class SqlQueryService {
         // JSON body
         Map<String, String> body = new HashMap<>();
         body.put("prompt", userQuery);
-        body.put("model", model);
 
         // JSON headers
         HttpHeaders headers = new HttpHeaders();
