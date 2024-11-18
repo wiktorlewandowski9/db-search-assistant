@@ -141,6 +141,14 @@ header .header-menu a:hover:after{
   display: none;
 }
 
+.chatbot-output .response{
+  color: #fff;
+  font-size: 2rem;
+  border: 1px solid #7b7b7b;
+  border-radius: 10px;
+  padding: 50px;
+}
+
 .chatbot-output .loader {
   width: 55px;
   margin-top: 230px;
