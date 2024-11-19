@@ -1,5 +1,6 @@
 package com.project.db_search_assistant.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -72,10 +73,11 @@ public class SqlQueryService {
                 return "No data found for the query.";
             }
 
-            return result.toString();
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(result);
 
         } catch (Exception e) {
-            return "Something went wrong... Try again." + e.getMessage();
+            return "Something went wrong... Try again.";
         }
     }
 
