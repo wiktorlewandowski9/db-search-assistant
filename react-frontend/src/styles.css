@@ -1,0 +1,276 @@
+*{
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+body{
+  margin:0;
+  background-color: #2d2d2d;
+}
+header{
+  background-color: #1a1a1a;
+  width: 100%;
+  color: #fff;
+  padding: 22px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 5px 100px;
+  -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  position: relative;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+header .header-left-side{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-decoration: none;
+  color: #fff;
+  gap: 20px;
+}
+
+header .header-left-side p{
+  font-size: 2rem;
+  margin: 0;
+}
+
+header .header-left-side img{
+  margin-top: 5px;
+  height: 70px;
+}
+
+header .header-menu{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap:25px;
+}
+
+header .header-menu a{
+  text-decoration: none;
+  color: #f2f2f2;
+  font-size: 1.4rem;
+  position:relative;
+}
+
+header .header-menu a:after {
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  content: "";
+  background-color: #f2f2f2;
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  border-radius: 2px;
+  opacity: 0;
+  bottom: -6px;
+  left: 0;
+}
+
+header .header-menu a:hover:after{
+  opacity: 1;
+}
+
+.info-container{
+  width: 100%;
+  max-height: 600px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #f2f2f2;
+  gap: 70px;
+  padding: 60px;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  overflow: hidden;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.info-container div{
+  overflow: hidden;
+  width: 300px;
+  height: 420px;
+  border-radius: 20px;
+  border: 1px solid #7b7b7b;
+  padding: 25px;
+  text-align: center;
+  font-size: 1.5rem;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.info-container div:hover{
+  -webkit-transform: scale(1.1);
+      -ms-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.info-container div svg{
+  width: 100%;
+  padding: 20px;
+  color: #f2f2f2;
+}
+
+.info-hidden{
+  max-height: 0;
+  padding: 0;
+}
+
+.chatbot-container{
+  width: 100%;
+  padding: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap:50px
+}
+
+.chatbot-container .chatbot-input{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.chatbot-container .chatbot-input input{
+  min-width: 310px;
+  background-color: transparent;
+  color: f2f2f2;
+  border: 1px solid #7b7b7b;
+  border-radius: 20px;
+  padding: 20px 0;
+  font-size: 24px;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  text-align: center;
+  word-break: break-all;
+}
+
+.chatbot-output{
+  display: none;
+}
+
+.chatbot-output .loader {
+  width: 55px;
+  margin-top: 230px;
+  aspect-ratio: 1;
+  --g1:conic-gradient(from  90deg at 3px  3px ,#0000 90deg,#f2f2f2 0);
+  --g2:conic-gradient(from -90deg at 22px 22px,#0000 90deg,#f2f2f2 0);
+  background:var(--g1),var(--g1),var(--g1), var(--g2),var(--g2),var(--g2);
+  background-size: 25px 25px;
+  background-repeat: no-repeat;
+  -webkit-animation: l7 1.5s infinite;
+          animation: l7 1.5s infinite;
+  -webkit-transform: scale(2);
+      -ms-transform: scale(2);
+          transform: scale(2);
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: center;
+
+  font-size: 1.2rem;
+  color: #fff;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+table tr th{
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+table tr th,
+table tr td {
+  border-right: 1px solid #7b7b7b;
+  border-bottom: 1px solid #7b7b7b;
+  padding: 15px;
+}
+
+table tr th:first-child,
+table tr td:first-child {
+  border-left: 1px solid #7b7b7b;
+}
+
+table tr th {
+  background: #222222;
+  border-top: solid 1px #7b7b7b;
+}
+
+/* Rounded list corners */
+table tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+}
+table tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+}
+table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+@-webkit-keyframes l7 {
+  0%   {background-position:0    0   ,0 100%,100% 100% }
+  25%  {background-position:100% 0   ,0 100%,100% 100% }
+  50%  {background-position:100% 0   ,0 0   ,100% 100% }
+  75%  {background-position:100% 0   ,0 0   ,0    100% }
+  100% {background-position:100% 100%,0 0   ,0    100% }
+}
+
+@keyframes l7 {
+  0%   {background-position:0    0   ,0 100%,100% 100% }
+  25%  {background-position:100% 0   ,0 100%,100% 100% }
+  50%  {background-position:100% 0   ,0 0   ,100% 100% }
+  75%  {background-position:100% 0   ,0 0   ,0    100% }
+  100% {background-position:100% 100%,0 0   ,0    100% }
+}
+
+.visible{
+  display: block;
+}
