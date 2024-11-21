@@ -1,0 +1,49 @@
+services:
+  react-frontend:
+    build:
+      context: ./react-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./react-frontend:/usr/src/app
+    depends_on:
+      - backend-java
+      - backend-python
+
+  backend-java:
+    build:
+      context: ./backend/java/db-search-assistant/db-search-assistant
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+
+  backend-python:
+    build:
+      context: ./backend/python
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      OLLAMA_API_URL: http://host.docker.internal:11400
+      LLM_NAME: q6kl
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

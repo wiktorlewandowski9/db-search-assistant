@@ -26,7 +26,7 @@ async def generate_sql(query: Query):
         combined_prompt = f"{context} User prompt: {query.prompt}"
 
         response = requests.post(
-            "http://localhost:11434/api/generate",
+            "http://host.docker.internal:11434/api/generate",
             json={
                 "model": LLM_NAME,
                 "prompt": combined_prompt
