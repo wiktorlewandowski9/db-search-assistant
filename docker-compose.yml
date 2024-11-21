@@ -9,7 +9,6 @@ services:
       - ./react-frontend:/usr/src/app
     depends_on:
       - backend-java
-      - backend-python
 
   backend-java:
     build:
@@ -24,18 +23,8 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
 
-  backend-python:
-    build:
-      context: ./backend/python
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    environment:
-      OLLAMA_API_URL: http://host.docker.internal:11400
-      LLM_NAME: q6kl
-
   postgres:
-    image: postgres:15
+    image: postgres:latest
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
@@ -44,6 +33,16 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  ollama:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    runtime: nvidia
+    ports:
+      - "11434:11434"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
 
 volumes:
   postgres_data:
