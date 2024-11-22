@@ -4,18 +4,22 @@ const ChatBot = () => {
     const [input, setInput] = useState('');
     const [response, setResponse] = useState([]);
 
+    // Function to handle sending the user's input to the API
     const handleSendMessage = async () => {
         if (input.trim() === '') return;
-
         setResponse([]);
 
+        // Hide the info container and show the chatbot output
         document.querySelector(".info-container")?.classList.add("info-hidden");
         document.querySelector(".chatbot-output")?.classList.add("visible");
 
         try {
             const query = encodeURIComponent(input.trim());
-            const res = await fetch(`http://localhost:8080/query?userQuery=${query}`);
+            const apiUrl = process.env.REACT_APP_SPRING_URL;
+            console.log(apiUrl);
 
+            // Fetch the response from the API
+            const res = await fetch(`${apiUrl}?userQuery=${query}`);
             const data = await res.json();
             const parsedData = JSON.parse(data.sql_query);
             setResponse(parsedData);
@@ -26,6 +30,7 @@ const ChatBot = () => {
         }
     };
 
+    // Function to resize the input field based on the length of the user's input
     const resizeInput = (el) => {
         el.style.width = el.value.length + "ch";
     };
