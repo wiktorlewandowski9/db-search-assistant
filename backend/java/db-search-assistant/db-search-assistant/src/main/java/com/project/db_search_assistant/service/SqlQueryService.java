@@ -8,9 +8,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.ResponseEntity;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +23,7 @@ public class SqlQueryService {
 
     private final RestTemplate restTemplate;
     private final JdbcTemplate jdbcTemplate;
-
-    @Value("${fastapi.url}")
-    private String fastApiUrl;
+    private final String context = readContextFromFile();
 
     @Autowired
     public SqlQueryService(JdbcTemplate jdbcTemplate, RestTemplate restTemplate) {
@@ -30,71 +31,90 @@ public class SqlQueryService {
         this.restTemplate = restTemplate;
     }
 
+    @Value("${MODEL_URL}")
+    private String modelURL;
+
+    @Value("${MODEL_NAME}")
+    private String modelName;
+
+
     public String getSqlQuery(String userQuery) {
         if (userQuery == null || userQuery.isEmpty()) {
             throw new IllegalArgumentException("User query cannot be empty");
         }
 
-        // JSON body
-        Map<String, String> body = new HashMap<>();
-        body.put("prompt", userQuery);
+        String fullPrompt = context + "\n" + userQuery;
+        System.out.println("Constructed full prompt:\n" + fullPrompt);
 
-        // JSON headers
+        Map<String, Object> body = new HashMap<>();
+        body.put("model", modelName);
+        body.put("prompt", fullPrompt);
+        body.put("stream", false);
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(body, headers);
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        // URL to FastAPI
-        String url = fastApiUrl + "/generate_sql";
+        try {
+            System.out.println("Sending request to model URL: " + modelURL);
+            ResponseEntity<String> response = restTemplate.postForEntity(modelURL, requestEntity, String.class);
 
-        // Send POST to FastAPI to get the SQL query
-        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
-        String sqlQuery = response.getBody();
-        sqlQuery = cleanSqlQuery(sqlQuery);
+            String sqlQuery = extractSqlQueryFromResponse(response.getBody());
+            System.out.println("Cleaned SQL query: " + sqlQuery);
 
-        System.out.println(sqlQuery);
+            return executeSqlQuery(sqlQuery);
 
-        // Execute SQL query on database
-        return executeSqlQuery(sqlQuery);
+        } catch (RestClientException e) {
+            System.err.println("Error during API call to Ollama: " + e.getMessage());
+            throw new RuntimeException("Error during API call to Ollama", e);
+        }
     }
 
-    // Executes the SQL query on PostgreSQL and returns the result
+    private String readContextFromFile() {
+        try {
+            String context = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("context.txt").toURI())));
+            System.out.println("Context successfully read.");
+            return context;
+        } catch (Exception e) {
+            System.err.println("Failed to read context file: " + e.getMessage());
+            throw new RuntimeException("Failed to read context file from resources.", e);
+        }
+    }
+
     public String executeSqlQuery(String sqlQuery) {
         try {
             if (sqlQuery == null || sqlQuery.trim().isEmpty()) {
+                System.err.println("SQL query is empty or null.");
                 return "Error: SQL query cannot be empty.";
             }
 
-            // Execute query using JdbcTemplate and capture the result
-            List<Map<String, Object>> result = jdbcTemplate.queryForList(sqlQuery);
-
-            if (result.isEmpty()) {
+            if (sqlQuery.isEmpty()) {
                 return "No data found for the query.";
             }
 
+            System.out.println("Executing SQL query: " + sqlQuery);
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sqlQuery);
+
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(result);
+            String jsonResponse = objectMapper.writeValueAsString(result);
+            System.out.println("Query executed successfully. Result: " + jsonResponse);
+            return jsonResponse;
 
         } catch (Exception e) {
+            System.err.println("Error during SQL query execution: " + e.getMessage());
             return "Something went wrong... Try again.";
         }
     }
 
-    // Helper method to clean the SQL query
-    private String cleanSqlQuery(String sqlQuery) {
-        if (sqlQuery == null) {
-            return "";
+    private String extractSqlQueryFromResponse(String responseBody) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+
+            return (String) responseMap.get("response");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to extract SQL query from response", e);
         }
-
-        // Remove unnecessary quotes around the query and normalize newline characters
-        sqlQuery = sqlQuery.replace("\"", "");   // Remove any surrounding quotes
-        sqlQuery = sqlQuery.replace("\n", " ");  // Replace newline characters with a single space
-        sqlQuery = sqlQuery.replace("\r", " ");  // Remove carriage returns
-        sqlQuery = sqlQuery.replace("\\", "'");
-        sqlQuery = sqlQuery.replace("'n", "");
-        sqlQuery = sqlQuery.trim();
-
-        return sqlQuery;
     }
 }

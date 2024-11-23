@@ -3,10 +3,12 @@ services:
     build:
       context: ./react-frontend
       dockerfile: Dockerfile
+      args:
+        - REACT_APP_SPRING_URL=http://host.docker.internal:8080/query
+    environment:
+      - REACT_APP_SPRING_URL=http://host.docker.internal:8080/query
     ports:
       - "80:80"
-    volumes:
-      - ./react-frontend:/usr/src/app
     depends_on:
       - backend-java
 
@@ -22,6 +24,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
+      MODEL_URL: http://host.docker.internal:11434/api/generate
+      MODEL_NAME: hf.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF
 
   postgres:
     image: postgres:latest
