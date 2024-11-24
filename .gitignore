@@ -85,6 +85,3 @@ jacoco.xml
 report.xml
 reports/
 coverage/
-
-# --- Local Configs and Secrets ---
-application.properties
