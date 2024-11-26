@@ -16,11 +16,7 @@ Our implementation leverages an LLM, specifically Llama 3.1 8B Instruct, for nat
 
 ## 💻 Tech Stack
 
-### Backend:
-[![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)  [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff)](#)  [![Postgres](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white)](#)  [![LLaMA](https://img.shields.io/badge/Llama-3.1-black?logo=ai&logoColor=white)](#)  
-
-### Frontend:
-[![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](#)  [![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?logo=node.js&logoColor=white)](#)  
+![Tech Stack](assets/tech-stack.png)
 
 ## 🐋 Docker Compose 
 
@@ -110,6 +106,9 @@ The model relies on detailed contextual information about the database to genera
      WHERE department_id = (SELECT department_id FROM departments WHERE department_name = 'IT') 
        AND hire_date > '2020-01-01';
      ```
+5. **How it looks** 
+
+![Tech Stack](assets/example.png)
 
 ### Note on Current Approach  
 
@@ -122,3 +121,8 @@ While this method works for basic scenarios, we acknowledge its limitations:
    The model might generate SQL queries that reference non-existent tables or columns, especially if the context is incomplete or ambiguous. To mitigate this, ensuring that the context file is accurate and comprehensive is critical.  
 
 We recognize these issues and are exploring more robust approaches, such as retrieval-augmented generation (RAG), which could dynamically incorporate real-time database schema information into the query generation process, reducing manual effort and improving reliability.
+
+<br>
+<br>
+
+[![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)  [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff)](#)  [![Postgres](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white)](#)  [![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](#)  [![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?logo=node.js&logoColor=white)](#)  [![LLaMA](https://img.shields.io/badge/Llama-3.1-black?logo=ai&logoColor=white)](#)
