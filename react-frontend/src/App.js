@@ -1,17 +1,21 @@
 import React from 'react';
-import ChatBot from './ChatBot';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Sites/Home';
+import Login from './Sites/Login';
+import ProtectedRoute from './Utils/ProtectedRoute';
 import './styles.css';
-import Header from './Header';
-import Info from './Info'
 
 function App() {
-  return (
-    <div className="App">
-      <Header />
-      <Info />
-      <ChatBot />
-    </div>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/" element={<Home />} />
+                </Route>
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
