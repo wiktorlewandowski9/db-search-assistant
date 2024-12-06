@@ -20,10 +20,14 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
+      - auth-db
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
+      AUTH_DB_URL: jdbc:postgresql://auth-db:5432/authdb
+      AUTH_DB_USERNAME: auth_user
+      AUTH_DB_PASSWORD: auth_pass
       MODEL_URL: http://host.docker.internal:11434/api/generate
       MODEL_NAME: hf.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF
 
@@ -38,6 +42,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  auth-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: auth_pass
+      POSTGRES_DB: authdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+
   ollama:
     build:
       context: .
@@ -50,3 +65,4 @@ services:
 
 volumes:
   postgres_data:
+  auth_data:

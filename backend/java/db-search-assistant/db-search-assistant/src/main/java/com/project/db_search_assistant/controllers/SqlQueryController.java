@@ -1,7 +1,7 @@
-package com.project.db_search_assistant.controller;
+package com.project.db_search_assistant.controllers;
 
-import com.project.db_search_assistant.model.SqlQueryResponse;
-import com.project.db_search_assistant.service.SqlQueryService;
+import com.project.db_search_assistant.models.SqlQueryResponse;
+import com.project.db_search_assistant.services.SqlQueryService;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

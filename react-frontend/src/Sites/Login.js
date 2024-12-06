@@ -14,17 +14,17 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:3001/api/login', {
+            const response = await fetch('http://localhost:8080/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
                 body: JSON.stringify({ username, password }),
             });
 
             if (!response.ok) {
                 throw new Error('Invalid credentials');
             }
-            console.log(response.ok)
+
+            alert('Login successful');
             navigate('/');
         } catch (err) {
             setError('Invalid username or password.');
