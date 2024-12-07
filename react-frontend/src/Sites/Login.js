@@ -18,13 +18,17 @@ const Login = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
+                credentials: 'include', // Zezwala na przesyłanie ciasteczek
             });
 
             if (!response.ok) {
                 throw new Error('Invalid credentials');
             }
 
-            alert('Login successful');
+            const result = await response.json();
+            console.log('Login successful:', result);
+
+            // Przekieruj użytkownika do strony głównej
             navigate('/');
         } catch (err) {
             setError('Invalid username or password.');
@@ -35,7 +39,7 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h1>Welcome back!</h1>
+            <h1>Sign In</h1>
             <form onSubmit={handleLogin} className="login-form">
                 <input
                     type="text"
@@ -53,7 +57,7 @@ const Login = () => {
                 />
                 {error && <p className="error-message">{error}</p>}
                 <button type="submit" disabled={loading}>
-                    {loading ? 'Signing in...' : 'Sign in'}
+                    {loading ? 'Signing in...' : 'Sign In'}
                 </button>
             </form>
         </div>

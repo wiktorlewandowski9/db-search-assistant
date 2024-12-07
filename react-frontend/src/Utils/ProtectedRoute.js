@@ -7,13 +7,14 @@ const ProtectedRoute = () => {
     useEffect(() => {
         const verifyAuth = async () => {
             try {
-                const response = await fetch('http://localhost:3001/api/protected', {
+                const response = await fetch('http://localhost:8080/api/protected', {
                     method: 'GET',
                     credentials: 'include',
                 });
 
                 setIsAuthenticated(response.ok);
-            } catch {
+            } catch (error) {
+                console.error('Authentication check failed:', error);
                 setIsAuthenticated(false);
             }
         };
@@ -21,9 +22,8 @@ const ProtectedRoute = () => {
         verifyAuth();
     }, []);
 
-    
     if (isAuthenticated === null) {
-        return null;
+        return <p>Loading...</p>;
     }
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
