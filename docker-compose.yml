@@ -29,7 +29,7 @@ services:
       AUTH_DB_USERNAME: auth_user
       AUTH_DB_PASSWORD: auth_pass
       MODEL_URL: http://host.docker.internal:11434/api/generate
-      MODEL_NAME: hf.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF
+      MODEL_NAME: hf.co/QuantFactory/llama-3-sqlcoder-8b-GGUF:Q6_K
 
   postgres:
     image: postgres:latest
