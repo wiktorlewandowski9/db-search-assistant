@@ -77,4 +77,60 @@ public class AuthController {
         response.addHeader("Set-Cookie", cookie.toString());
         return ResponseEntity.ok(Map.of("message", "Logout successful"));
     }
+
+    // Endpoint to fetch all users
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody User user) {
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            return ResponseEntity.status(400).body(Map.of("error", "User already exists"));
+        }
+        userRepository.save(user);
+        return ResponseEntity.ok(Map.of("message", "User registered successfully"));
+    }
+
+    // Endpoint to delete a user by ID
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return ResponseEntity.ok(Map.of("message", "User deleted successfully"));
+        }
+        return ResponseEntity.status(404).body(Map.of("error", "User not found"));
+    }
+
+    // Endpoint to change the username of a user
+    @PutMapping("/users/{id}/change-username")
+    public ResponseEntity<?> changeUsername(@PathVariable Long id, @RequestBody Map<String, String> request) {
+        String newUsername = request.get("newUsername");
+        if (userRepository.existsById(id)) {
+            User user = userRepository.findById(id).orElse(null);
+            if (user != null && userRepository.findByUsername(newUsername) == null) {
+                user.setUsername(newUsername);
+                userRepository.save(user);
+                return ResponseEntity.ok(Map.of("message", "Username changed successfully"));
+            }
+            return ResponseEntity.status(400).body(Map.of("error", "Username already taken"));
+        }
+        return ResponseEntity.status(404).body(Map.of("error", "User not found"));
+    }
+
+    // Endpoint to change the password of a user
+    @PutMapping("/users/{id}/change-password")
+    public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody Map<String, String> request) {
+        String newPassword = request.get("newPassword");
+        if (userRepository.existsById(id)) {
+            User user = userRepository.findById(id).orElse(null);
+            if (user != null) {
+                user.setPassword(newPassword);
+                userRepository.save(user);
+                return ResponseEntity.ok(Map.of("message", "Password changed successfully"));
+            }
+        }
+        return ResponseEntity.status(404).body(Map.of("error", "User not found"));
+    }
 }

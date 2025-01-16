@@ -28,8 +28,12 @@ const Login = () => {
             const result = await response.json();
             console.log('Login successful:', result);
 
-            // Przekieruj użytkownika do strony głównej
-            navigate('/');
+            // Conditional redirect for admin
+            if (username === 'admin') {
+                navigate('/admin-panel');
+            } else {
+                navigate('/');
+            }
         } catch (err) {
             setError('Invalid username or password.');
         } finally {
