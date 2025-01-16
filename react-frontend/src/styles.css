@@ -350,14 +350,14 @@ table tr:last-child td:last-child {
   color: #f2f2f2;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   padding: 30px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
+}
+
+.admin-panel-content table {
+  margin-bottom: 10px;
 }
 
 .add-user-form {
-  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .add-user-form h2 {
@@ -387,6 +387,26 @@ table tr:last-child td:last-child {
 .add-user-form button:hover {
   background-color: #7b7b7b;
   color: #f2f2f2;
+}
+
+.add-user-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  color: #2d2d2d;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-user-button:hover {
+  background-color: #7b7b7b;
+  color: #f2f2f2;
+}
+
+.hidden {
+  display: none;
 }
 
 .user-list {
