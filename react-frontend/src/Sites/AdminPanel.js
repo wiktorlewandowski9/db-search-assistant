@@ -8,7 +8,9 @@ const AdminPanel = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/users');
+            const response = await fetch('http://localhost:8080/api/users', {
+                credentials: 'include'
+            });
             const data = await response.json();
             setUsers(data);
         } catch (error) {
@@ -50,7 +52,7 @@ const AdminPanel = () => {
                 });
                 const data = await response.json();
                 if (response.ok) {
-                    fetchUsers(); // Refresh the user list
+                    fetchUsers();
                 } else {
                     console.error('Error deleting user:', data.error);
                 }
@@ -125,7 +127,7 @@ const AdminPanel = () => {
                                 <tr key={user.id}>
                                     <td>{user.id}</td>
                                     <td>{user.username}</td>
-                                    <td>
+                                    <td style={{ display: 'flex', gap: '10px' }}>
                                         <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
                                         <button onClick={() => handleChangeUsername(user.id)}>Change Username</button>
                                         <button onClick={() => handleChangePassword(user.id)}>Change Password</button>

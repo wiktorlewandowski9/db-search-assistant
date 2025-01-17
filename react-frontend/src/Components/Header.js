@@ -32,7 +32,7 @@ const Header = () => {
       <div className='header-menu'>
         <a href='http://localhost:3000'>Start</a>
         <a href='https://github.com/wiktorlewandowski9/db-search-assistant'>Github</a>
-        <button onClick={handleLogout} className="logout-button">Logout</button>
+        <a href="#" onClick={handleLogout} className="logout-button">Logout</a>
       </div>
     </header>
   );

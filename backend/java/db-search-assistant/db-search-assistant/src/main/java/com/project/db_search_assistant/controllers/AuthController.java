@@ -9,8 +9,12 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api")
@@ -23,6 +27,28 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @PostConstruct
+    public void ensureAdminUserExists() {
+        String adminUsername = "admin";
+        if (userRepository.findByUsername(adminUsername) == null) {
+            String randomPassword = generateRandomPassword();
+            User adminUser = new User();
+            adminUser.setUsername(adminUsername);
+            adminUser.setPassword(passwordEncoder.encode(randomPassword));
+            userRepository.save(adminUser);
+            System.out.println("Admin user created with password: " + randomPassword);
+        }
+    }
+
+    private String generateRandomPassword() {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[24];
+        random.nextBytes(bytes);
+        return Base64.getEncoder().encodeToString(bytes);
+    }
+
     // Endpoint logowania użytkownika
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials, HttpServletResponse response) {
@@ -31,7 +57,7 @@ public class AuthController {
 
         User user = userRepository.findByUsername(username);
 
-        if (user != null && password.equals(user.getPassword())) {
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             String token = jwtUtil.generateToken(username);
 
             ResponseCookie cookie = ResponseCookie.from("jwt", token)
@@ -80,8 +106,19 @@ public class AuthController {
 
     // Endpoint to fetch all users
     @GetMapping("/users")
-    public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
+    public ResponseEntity<?> getAllUsers(@CookieValue(value = "jwt", required = false) String token) {
+        if (token != null) {
+            try {
+                String username = jwtUtil.validateToken(token);
+                if (!"admin".equals(username)) {
+                    return ResponseEntity.status(403).body(Map.of("error", "Forbidden"));
+                }
+                return ResponseEntity.ok(userRepository.findAll());
+            } catch (Exception e) {
+                return ResponseEntity.status(403).body(Map.of("error", "Forbidden"));
+            }
+        }
+        return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
     }
 
     @PostMapping("/register")
@@ -89,6 +126,7 @@ public class AuthController {
         if (userRepository.findByUsername(user.getUsername()) != null) {
             return ResponseEntity.status(400).body(Map.of("error", "User already exists"));
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
@@ -126,7 +164,7 @@ public class AuthController {
         if (userRepository.existsById(id)) {
             User user = userRepository.findById(id).orElse(null);
             if (user != null) {
-                user.setPassword(newPassword);
+                user.setPassword(passwordEncoder.encode(newPassword));
                 userRepository.save(user);
                 return ResponseEntity.ok(Map.of("message", "Password changed successfully"));
             }
