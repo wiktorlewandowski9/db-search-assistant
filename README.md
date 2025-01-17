@@ -4,7 +4,7 @@
 
 DB Search Assistant is designed to assist users in retrieving data from a PostgreSQL database by translating natural language queries into SQL. By providing contextual information about the database structure, the application guides the language model to produce accurate SQL queries as responses to user input.
 
-Our implementation leverages an LLM, specifically Llama 3.1 8B Instruct, for natural language understanding to translate user queries into SQL. The architecture has been streamlined to use **Spring Boot** exclusively for backend logic, simplifying maintenance and deployment. Deployment is managed with **Docker Compose**, ensuring a straightforward setup process.
+Our implementation leverages an LLM, specifically Llama 3.2 3B Instruct, for natural language understanding to translate user queries into SQL. The architecture has been streamlined to use **Spring Boot** exclusively for backend logic, simplifying maintenance and deployment. Deployment is managed with **Docker Compose**, ensuring a straightforward setup process.
 
 ---
 
@@ -27,7 +27,7 @@ The project includes the following services managed via [Docker Compose](https:/
 1. **React Frontend** (UI)  
 2. **Spring Boot Backend** (API logic, including SQL query generation and database access)
 3. **PostgreSQL** (Database to store and retrieve data)  
-4. **Ollama** (Runs the Llama 3.1 model for natural language to SQL translation)  
+4. **Ollama** (Runs the Llama 3.2 model for natural language to SQL translation)  
 
 ### **How to Deploy Locally**  
 
@@ -125,4 +125,4 @@ We recognize these issues and are exploring more robust approaches, such as retr
 <br>
 <br>
 
-[![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)  [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff)](#)  [![Postgres](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white)](#)  [![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](#)  [![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?logo=node.js&logoColor=white)](#)  [![LLaMA](https://img.shields.io/badge/Llama-3.1-black?logo=ai&logoColor=white)](#)
+[![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)  [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff)](#)  [![Postgres](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white)](#)  [![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](#)  [![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?logo=node.js&logoColor=white)](#)  [![LLaMA](https://img.shields.io/badge/Llama-3.2-black?logo=ai&logoColor=white)](#)
