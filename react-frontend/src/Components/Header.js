@@ -7,10 +7,19 @@ const Header = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem('username');
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('username');
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+      if (response.ok) {
+        localStorage.removeItem('username');
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
 
   return (
@@ -23,14 +32,7 @@ const Header = () => {
       <div className='header-menu'>
         <a href='http://localhost:3000'>Start</a>
         <a href='https://github.com/wiktorlewandowski9/db-search-assistant'>Github</a>
-        {username ? (
-          <>
-            <span>Welcome, {username}</span>
-            <button onClick={handleLogout}>Logout</button>
-          </>
-        ) : (
-          <a href='https://github.com/wiktorlewandowski9/db-search-assistant'>User</a>
-        )}
+        <a href="#" onClick={handleLogout} className="logout-button">Logout</a>
       </div>
     </header>
   );

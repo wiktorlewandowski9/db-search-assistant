@@ -14,18 +14,26 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:3001/api/login', {
+            const response = await fetch('http://localhost:8080/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
                 body: JSON.stringify({ username, password }),
+                credentials: 'include', // Zezwala na przesyłanie ciasteczek
             });
 
             if (!response.ok) {
                 throw new Error('Invalid credentials');
             }
-            console.log(response.ok)
-            navigate('/');
+
+            const result = await response.json();
+            console.log('Login successful:', result);
+
+            // Conditional redirect for admin
+            if (username === 'admin') {
+                navigate('/admin-panel');
+            } else {
+                navigate('/');
+            }
         } catch (err) {
             setError('Invalid username or password.');
         } finally {
@@ -35,7 +43,7 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h1>Welcome back!</h1>
+            <h1>Sign In</h1>
             <form onSubmit={handleLogin} className="login-form">
                 <input
                     type="text"
@@ -53,7 +61,7 @@ const Login = () => {
                 />
                 {error && <p className="error-message">{error}</p>}
                 <button type="submit" disabled={loading}>
-                    {loading ? 'Signing in...' : 'Sign in'}
+                    {loading ? 'Signing in...' : 'Sign In'}
                 </button>
             </form>
         </div>
