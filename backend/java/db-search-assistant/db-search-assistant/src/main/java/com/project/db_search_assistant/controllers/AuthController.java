@@ -123,6 +123,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
+        if (user.getUsername() == null || user.getUsername().isEmpty() || user.getPassword() == null
+                || user.getPassword().isEmpty()) {
+            return ResponseEntity.status(400).body(Map.of("error", "Username and password cannot be empty"));
+        }
         if (userRepository.findByUsername(user.getUsername()) != null) {
             return ResponseEntity.status(400).body(Map.of("error", "User already exists"));
         }
