@@ -5,6 +5,7 @@
 *.DS_Store
 *.swp
 Thumbs.db
+models/
 
 # --- Docker ---
 docker-compose.override.yml

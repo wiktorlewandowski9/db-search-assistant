@@ -1,4 +1,4 @@
-package com.project.db_search_assistant.model;
+package com.project.db_search_assistant.models;
 
 public class SqlQueryResponse {
     private String sql_query;
