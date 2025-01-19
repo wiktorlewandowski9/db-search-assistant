@@ -24,13 +24,13 @@ const Header = () => {
 
   return (
     <header className="header">
-      <a href='http://localhost:3000' className='header-left-side'>
+      <a href='http://localhost' className='header-left-side'>
         <img src={logo} alt="Logo" />
         <p>DB Search Assistant</p>
       </a>
 
       <div className='header-menu'>
-        <a href='http://localhost:3000'>Start</a>
+        <a href='http://localhost'>Start</a>
         <a href='https://github.com/wiktorlewandowski9/db-search-assistant'>Github</a>
         <a href="#" onClick={handleLogout} className="logout-button">Logout</a>
       </div>
