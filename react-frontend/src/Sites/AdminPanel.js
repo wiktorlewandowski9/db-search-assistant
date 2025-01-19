@@ -7,8 +7,6 @@ const AdminPanel = () => {
     const [newUser, setNewUser] = useState({ username: '', password: '' });
     const [showAddUserForm, setShowAddUserForm] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [adminPassword, setAdminPassword] = useState('');
-    const [adminPasswordError, setAdminPasswordError] = useState('');
 
     const fetchUsers = async () => {
         try {
@@ -102,7 +100,8 @@ const AdminPanel = () => {
         const newPassword = prompt("Enter new password:");
         if (newPassword) {
             try {
-                const response = await fetch(`http://localhost:8080/api/users/${id}/change-password`, {
+                const url = `http://localhost:8080/api/users/${id}/change-password`;
+                const response = await fetch(url, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -122,30 +121,9 @@ const AdminPanel = () => {
         }
     };
 
-    const handleChangeAdminPassword = async () => {
-        const newPassword = prompt("Enter new admin password:");
-        if (newPassword) {
-            try {
-                const response = await fetch(`http://localhost:8080/api/admin/change-password`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ newPassword }),
-                    credentials: 'include'
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    setAdminPassword('');
-                    setAdminPasswordError('');
-                } else {
-                    setAdminPasswordError(data.error);
-                    console.error('Error changing admin password:', data.error);
-                }
-            } catch (error) {
-                console.error('Error changing admin password:', error);
-            }
-        }
+    const getAdminUserId = () => {
+        const adminUser = users.find(user => user.username === 'admin');
+        return adminUser ? adminUser.id : null;
     };
 
     return (
@@ -209,8 +187,7 @@ const AdminPanel = () => {
                 </div>
                 <div className="other-functions">
                     <h2>Other functions</h2>
-                    {adminPasswordError && <p className="error-message">{adminPasswordError}</p>}
-                    <button onClick={handleChangeAdminPassword}>Change Admin Password</button>
+                    <button onClick={() => handleChangePassword(getAdminUserId())}>Change Admin Password</button>
                 </div>
             </div>
             <ChatBot />
