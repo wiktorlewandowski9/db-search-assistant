@@ -96,6 +96,11 @@ public class SqlQueryService {
             System.out.println("Executing SQL query: " + sqlQuery);
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sqlQuery);
 
+            if (result == null || result.isEmpty()) {
+                System.out.println("No results found for the query.");
+                return "No results";
+            }
+
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonResponse = objectMapper.writeValueAsString(result);
             System.out.println("Query executed successfully. Result: " + jsonResponse);
@@ -103,7 +108,7 @@ public class SqlQueryService {
 
         } catch (Exception e) {
             System.err.println("Error during SQL query execution: " + e.getMessage());
-            return "Something went wrong... Try again.";
+            return "Error: " + e.getMessage();
         }
     }
 
